@@ -71,7 +71,7 @@ export default function DireitoDoTrabalhoPage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-do-trabalho.jpg';
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Quero%20falar%20sobre%20um%20caso%20de%20Direito%20do%20Trabalho.';
+    'https://wa.me/5591986284970?text=Olá!%20Quero%20falar%20sobre%20um%20caso%20de%20Direito%20do%20Trabalho.';
 
   const faq = [
     {

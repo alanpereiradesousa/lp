@@ -74,7 +74,7 @@ export default function DireitoDoConsumidorPage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-do-consumidor.jpg';
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20do%20Consumidor.';
+    'https://wa.me/5591986284970?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20do%20Consumidor.';
 
   const faq = [
     {

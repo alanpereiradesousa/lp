@@ -69,7 +69,7 @@ export default function DireitoEmpresarialPage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-empresarial.jpg'; // imagem específica
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Quero%20falar%20sobre%20Direito%20Empresarial.';
+    'https://wa.me/5591986284970?text=Olá!%20Quero%20falar%20sobre%20Direito%20Empresarial.';
 
   const serviceJsonLd = {
     '@context': 'https://schema.org',

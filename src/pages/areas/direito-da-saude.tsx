@@ -69,7 +69,7 @@ export default function DireitoDaSaudePage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-da-saude.jpg';
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Preciso%20de%20ajuda%20em%20Direito%20da%20Saúde%20(plano%20de%20saúde%2C%20medicamento%20ou%20tratamento).';
+    'https://wa.me/5591986284970?text=Olá!%20Preciso%20de%20ajuda%20em%20Direito%20da%20Saúde%20(plano%20de%20saúde%2C%20medicamento%20ou%20tratamento).';
 
   const faq = [
     {

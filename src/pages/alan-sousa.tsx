@@ -27,7 +27,7 @@ const ALAN = {
   role: "Advogado Previdenciário",
   photo: SHARE_PHOTO_PATH,
   phoneDisplay: "(91) 98395-7965",
-  phoneE164: "+5591983957965",
+  phoneE164: "+5591986284970",
   whatsappNumber: "5591992047151",
   whatsappPreset:
     "Olá! Quero falar sobre um caso de Direito Previdenciário.",

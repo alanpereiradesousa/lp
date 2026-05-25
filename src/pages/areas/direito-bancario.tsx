@@ -74,7 +74,7 @@ export default function DireitoBancarioPage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-bancario.jpg';
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20Bancário%20(contrato%2C%20juros%2C%20dívida%20ou%20execução).';
+    'https://wa.me/5591986284970?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20Bancário%20(contrato%2C%20juros%2C%20dívida%20ou%20execução).';
 
   const faq = [
     {

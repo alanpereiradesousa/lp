@@ -70,7 +70,7 @@ export default function DireitoDasPessoasComTEAPage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-das-pessoas-com-tea.jpg';
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Preciso%20de%20orientação%20sobre%20Direitos%20das%20Pessoas%20com%20TEA%20(saúde%2C%20educação%20ou%20benefícios).';
+    'https://wa.me/5591986284970?text=Olá!%20Preciso%20de%20orientação%20sobre%20Direitos%20das%20Pessoas%20com%20TEA%20(saúde%2C%20educação%20ou%20benefícios).';
 
   const faq = [
     {

@@ -75,7 +75,7 @@ export default function DireitoFamiliaSucessoesPage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-familia-sucessoes.jpg';
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20de%20Família%20ou%20Sucessões.';
+    'https://wa.me/5591986284970?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20de%20Família%20ou%20Sucessões.';
 
   const serviceJsonLd = {
     '@context': 'https://schema.org',

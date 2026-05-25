@@ -74,7 +74,7 @@ export default function DireitoPenalPage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-penal.jpg';
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20Penal.';
+    'https://wa.me/5591986284970?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20Penal.';
 
   const faq = [
     {

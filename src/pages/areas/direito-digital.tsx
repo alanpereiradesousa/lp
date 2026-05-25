@@ -74,7 +74,7 @@ export default function DireitoDigitalPage({ menu }: AreaPageProps) {
   const areaImage = '/images/areas/direito-digital.jpg';
 
   const whatsappLink =
-    'https://wa.me/5591983957965?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20Digital%20(LGPD%2C%20conteúdo%20online%2C%20fraudes%20ou%20vazamento%20de%20dados).';
+    'https://wa.me/5591986284970?text=Olá!%20Preciso%20de%20orientação%20em%20Direito%20Digital%20(LGPD%2C%20conteúdo%20online%2C%20fraudes%20ou%20vazamento%20de%20dados).';
 
   const faq = [
     {
