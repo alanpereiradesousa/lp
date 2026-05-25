@@ -19,7 +19,7 @@ export function MenuAlan({ menuData }: MenuProps) {
   const router = useRouter();
 
   const whatsappLink =
-    'https://wa.me/5591986284970?text=Olá!%20Quero%20falar%20sobre%20um%20caso%20de%20Direito%20Previdenciário.';
+    'https://wa.me/5591992047151?text=Olá!%20Quero%20falar%20sobre%20um%20caso%20de%20Direito%20Previdenciário.';
 
   useEffect(() => {
     const handleScroll = () => {
