@@ -1,80 +1,109 @@
-// pages/api/contact.ts
+import type { NextApiRequest, NextApiResponse } from "next";
+import { Resend } from "resend";
+import prisma from "../../../lib/prisma";
+import { formatServiceOfInterest } from "../../utils/contactLabels";
 
-import { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
-import { Resend } from 'resend';
-
-const prisma = new PrismaClient();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const NOTIFY_EMAIL =
+  process.env.CONTACT_NOTIFY_EMAIL || "alanpereiradesousaads@gmail.com";
+
+const FROM_EMAIL =
+  process.env.EMAIL_FROM || "escritório@pereiradesousa.adv.br";
+
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    res.setHeader('Allow', ['POST']);
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
+    return res.status(405).json({ success: false, message: `Método ${req.method} não permitido.` });
   }
 
   const { name, email, phone, serviceOfInterest, message } = req.body;
 
-  // Validação básica dos campos obrigatórios
-  if (!name || !email || !message) {
-    return res.status(400).json({ success: false, message: 'Nome, e-mail e mensagem são obrigatórios.' });
+  if (!name?.trim() || !email?.trim() || !message?.trim()) {
+    return res.status(400).json({
+      success: false,
+      message: "Nome, e-mail e mensagem são obrigatórios.",
+    });
   }
 
+  const data = {
+    name: String(name).trim(),
+    email: String(email).trim(),
+    phone: phone ? String(phone).trim() : null,
+    serviceOfInterest: serviceOfInterest ? String(serviceOfInterest).trim() : null,
+    message: String(message).trim(),
+  };
+
   try {
-    // Salva os dados do contato no banco de dados
-    const newContact = await prisma.contact.create({
-      data: {
-        name,
-        email,
-        phone,
-        serviceOfInterest,
-        message,
-      },
-    });
+    const newContact = await prisma.contact.create({ data });
 
-    // Envia o e-mail de confirmação para o cliente
-    await resend.emails.send({
-      from: "Pereira de Sousa Associados <escritório@pereiradesousa.adv.br>", // Altere esta linha
-      to: email,
-      subject: `Confirmação de Recebimento - ${name}`,
-      html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Confirmação de Contato</title>
-          <style>
-            body { font-family: sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
-            .header { text-align: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
-            .header h1 { color: #A9876D; }
-            .content p { margin-bottom: 15px; }
-            .cta-button { display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #A9876D; text-decoration: none; border-radius: 5px; }
-            .footer { text-align: center; font-size: 12px; color: #777; margin-top: 20px; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>Pereira de Sousa Associados</h1>
-            </div>
-            <div class="content">
-              <p>Olá, ${name}!</p>
-              <p>Agradecemos o seu contato. Recebemos a sua mensagem com sucesso e nossa equipe já está analisando as suas informações. Em breve, entraremos em contato para dar continuidade ao seu atendimento.</p>
-              <p>Atenciosamente,</p>
-              <p>A equipe da Pereira de Sousa Associados.</p>
-            </div>
-            <div class="footer">
-              <p>Este é um e-mail automático. Por favor, não responda.</p>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
-    });
+    const area = formatServiceOfInterest(data.serviceOfInterest);
+    const phoneLine = data.phone ? `<p><strong>Telefone:</strong> ${escapeHtml(data.phone)}</p>` : "";
 
-    res.status(201).json({ success: true, contact: newContact, message: 'Mensagem enviada com sucesso!' });
-  } catch (error: any) {
-    console.error('Erro ao salvar contato no banco de dados ou enviar e-mail:', error);
-    res.status(500).json({ success: false, message: 'Erro interno do servidor ao salvar sua mensagem.' });
+    const notifyHtml = `
+      <h2>Nova mensagem pelo formulário de contato</h2>
+      <p><strong>Nome:</strong> ${escapeHtml(data.name)}</p>
+      <p><strong>E-mail:</strong> ${escapeHtml(data.email)}</p>
+      ${phoneLine}
+      <p><strong>Área de interesse:</strong> ${escapeHtml(area)}</p>
+      <p><strong>Mensagem:</strong></p>
+      <p style="white-space:pre-wrap">${escapeHtml(data.message)}</p>
+      <hr />
+      <p style="font-size:12px;color:#666">ID: ${newContact.id} · ${newContact.createdAt.toISOString()}</p>
+    `;
+
+    if (process.env.RESEND_API_KEY) {
+      const emailTasks = [
+        resend.emails.send({
+          from: `Pereira de Sousa Associados <${FROM_EMAIL}>`,
+          to: NOTIFY_EMAIL,
+          replyTo: data.email,
+          subject: `[Site] Novo contato: ${data.name}`,
+          html: notifyHtml,
+        }),
+        resend.emails.send({
+          from: `Pereira de Sousa Associados <${FROM_EMAIL}>`,
+          to: data.email,
+          subject: `Confirmação de recebimento — ${data.name}`,
+          html: `
+            <p>Olá, ${escapeHtml(data.name)}!</p>
+            <p>Recebemos sua mensagem com sucesso. Nossa equipe entrará em contato em breve.</p>
+            <p>Atenciosamente,<br/>Pereira de Sousa Associados</p>
+          `,
+        }),
+      ];
+
+      const results = await Promise.allSettled(emailTasks);
+      results.forEach((result, index) => {
+        if (result.status === "rejected") {
+          console.error(
+            `[api/contact] Falha ao enviar e-mail (${index === 0 ? "notificação" : "confirmação"}):`,
+            result.reason
+          );
+        }
+      });
+    } else {
+      console.warn("[api/contact] RESEND_API_KEY ausente — mensagem salva, e-mails não enviados.");
+    }
+
+    return res.status(201).json({
+      success: true,
+      contact: newContact,
+      message: "Mensagem enviada com sucesso!",
+    });
+  } catch (error) {
+    console.error("[api/contact] Erro ao salvar contato:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Erro interno do servidor ao salvar sua mensagem.",
+    });
   }
 }

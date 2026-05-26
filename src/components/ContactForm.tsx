@@ -31,6 +31,8 @@ const ContactForm: React.FC = () => {
         }),
       });
 
+      const data = await res.json().catch(() => ({}));
+
       if (res.ok) {
         setStatus('success');
         setName('');
@@ -40,6 +42,7 @@ const ContactForm: React.FC = () => {
         setMessage('');
       } else {
         setStatus('error');
+        console.error(data.message || 'Erro ao enviar formulário');
       }
     } catch {
       setStatus('error');
