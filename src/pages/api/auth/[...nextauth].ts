@@ -39,6 +39,17 @@ export const authOptions: NextAuthOptions = {
     session: {
         strategy: "jwt",
     },
+    events: {
+        async createUser({ user }) {
+            const totalUsers = await prisma.user.count();
+            if (totalUsers === 1) {
+                await prisma.user.update({
+                    where: { id: user.id },
+                    data: { role: "ADMIN" },
+                });
+            }
+        },
+    },
     callbacks: {
         async jwt({ token, user }) {
             if (user) {

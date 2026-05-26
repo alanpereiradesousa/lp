@@ -15,6 +15,7 @@ import {
   MdClose,
   MdDarkMode,
   MdLightMode,
+  MdStorage,
 } from "react-icons/md";
 
 interface AdminLayoutProps {
@@ -186,6 +187,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 >
                   <MdPhotoLibrary className="mr-3 text-xl text-gray-500 group-hover:text-primary transition-colors" />
                   <span className="text-sm font-medium">Gerenciar Arquivos</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/admin/backup"
+                  className="text-gray-900 dark:text-white flex items-center p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200 group"
+                >
+                  <MdStorage className="mr-3 text-xl text-gray-500 group-hover:text-primary transition-colors" />
+                  <span className="text-sm font-medium">Backup do banco</span>
                 </Link>
               </li>
             </ul>
